@@ -29,25 +29,52 @@ credenciais = {
 
 #credencialgoogle = json.dumps(os.getenv("api_google"))
 #teste = json.dumps(getenv("api_google"), ident=4)
-print(credenciais)
+#print(credenciais)
 
 gc = gspread.service_account_from_dict(credenciais)
 
-# pegando os dados da planilha online
-dados = gc.open_by_url("https://docs.google.com/spreadsheets/d/1Yqb3QzcyV026GiwG75gw50_bMr0MV6LjNeFv10F2s44/edit?gid=0#gid=0").worksheet("lancamentos")
-dados.get_all_values()
-colunas = dados.get_all_values().pop(0)
+# CONTAINER ------------------------------------------------------------------------------------------
+# pegando os dadoscontainer da planilhacontainer online
+dadoscontainer = gc.open_by_url("https://docs.google.com/spreadsheets/d/1Yqb3QzcyV026GiwG75gw50_bMr0MV6LjNeFv10F2s44/edit?gid=0#gid=0").worksheet("lancamentos")
+dadoscontainer.get_all_values()
+colunascontainer = dadoscontainer.get_all_values().pop(0)
 
-# trazendo os dados para variavel 
-planilha = pd.DataFrame(data=dados.get_all_values(), columns=colunas).drop(index=0).reset_index(drop=True)
+# trazendo os dadoscontainer para variavel 
+planilhacontainer = pd.DataFrame(data=dadoscontainer.get_all_values(), columns=colunascontainer).drop(index=0).reset_index(drop=True)
 
 # convertendo coluna em numeros
-planilha['valor_limpo'] = planilha['Valor Total'].str.replace('R$', '', regex=False).str.strip()
-planilha['Total'] = pd.to_numeric(planilha['valor_limpo'].str.replace('.', '').str.replace(',', '.'), errors='coerce')
+planilhacontainer['valor_limpo'] = planilhacontainer['Valor Total'].str.replace('R$', '', regex=False).str.strip()
+planilhacontainer['Total'] = pd.to_numeric(planilhacontainer['valor_limpo'].str.replace('.', '').str.replace(',', '.'), errors='coerce')
+
+# LOFT1 -----------------------------------------------------------------------------------------------
+# pegando os dadoscontainer da planilhacontainer online
+dadosloft1 = gc.open_by_url("https://docs.google.com/spreadsheets/d/185MABLyZHgantHGiDuPMl3t1LKbDnSlRyE6BvbBpSwc/edit?gid=0#gid=0").worksheet("lancamentos")
+dadosloft1.get_all_values()
+colunasloft1 = dadosloft1.get_all_values().pop(0)
+
+# trazendo os dadoscontainer para variavel 
+planilhaloft1 = pd.DataFrame(data=dadosloft1.get_all_values(), columns=colunasloft1).drop(index=0).reset_index(drop=True)
+
+# convertendo coluna em numeros
+planilhaloft1['valor_limpo'] = planilhaloft1['Valor Total'].str.replace('R$', '', regex=False).str.strip()
+planilhaloft1['Total'] = pd.to_numeric(planilhaloft1['valor_limpo'].str.replace('.', '').str.replace(',', '.'), errors='coerce')
+
+# LOFT2--------------------------------------------------------------------------------------------------
+
+# pegando os dadoscontainer da planilhacontainer online
+dadosloft2 = gc.open_by_url("https://docs.google.com/spreadsheets/d/1sgnJCRAdaA4tHu3ja_nTNLN0gcsKbhnf4243S-swi04/edit?gid=0#gid=0").worksheet("lancamentos")
+dadosloft2.get_all_values()
+colunasloft2 = dadosloft2.get_all_values().pop(0)
+
+# trazendo os dadoscontainer para variavel 
+planilhaloft2 = pd.DataFrame(data=dadosloft2.get_all_values(), columns=colunasloft2).drop(index=0).reset_index(drop=True)
+
+# convertendo coluna em numeros
+planilhaloft2['valor_limpo'] = planilhaloft2['Valor Total'].str.replace('R$', '', regex=False).str.strip()
+planilhaloft2['Total'] = pd.to_numeric(planilhaloft2['valor_limpo'].str.replace('.', '').str.replace(',', '.'), errors='coerce')
+
 
 
 #Departamentos.plot(kind="bar", x="Tipo", y="Total", title="Hotel Morenos", rot=45)
-
-#planilha.query('Tipo == "Quartos"')
-
+#planilhacontainer.query('Tipo == "Quartos"')
 # zqdnvx388pekekakg6hbfc.streamlit.app
