@@ -73,7 +73,18 @@ planilhaloft2 = pd.DataFrame(data=dadosloft2.get_all_values(), columns=colunaslo
 planilhaloft2['valor_limpo'] = planilhaloft2['Valor Total'].str.replace('R$', '', regex=False).str.strip()
 planilhaloft2['Total'] = pd.to_numeric(planilhaloft2['valor_limpo'].str.replace('.', '').str.replace(',', '.'), errors='coerce')
 
+# LOFT1 CONTAS A PAGAR -----------------------------------------------------------------------------------------------
+# pegando os dados do contas a pagar da planilha do loft1 online
+dadoscontaspagar = gc.open_by_url("https://docs.google.com/spreadsheets/d/185MABLyZHgantHGiDuPMl3t1LKbDnSlRyE6BvbBpSwc/edit?gid=0#gid=0").worksheet("contaspagar")
+dadoscontaspagar.get_all_values()
+colunascontaspagar = dadoscontaspagar.get_all_values().pop(0)
 
+# trazendo os dadoscontainer para variavel 
+planilhacontaspagar = pd.DataFrame(data=dadoscontaspagar.get_all_values(), columns=colunascontaspagar).drop(index=0).reset_index(drop=True)
+
+# convertendo coluna em numeros
+planilhacontaspagar['valor_limpo'] = planilhacontaspagar['Valor'].str.replace('R$', '', regex=False).str.strip()
+planilhacontaspagar['Total'] = pd.to_numeric(planilhacontaspagar['valor_limpo'].str.replace('.', '').str.replace(',', '.'), errors='coerce')
 
 #Departamentos.plot(kind="bar", x="Tipo", y="Total", title="Hotel Morenos", rot=45)
 #planilhacontainer.query('Tipo == "Quartos"')
