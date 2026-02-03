@@ -23,6 +23,7 @@ with aba1:
     
     coluna1, coluna2 = st.columns(2)
     with coluna1:
+        st.subheader("Total por Departamentos")
         st.dataframe(departamentoscontainer)
         totalcontainer = f"R$ {planilhacontainer['Total'].sum():,.2f}".replace(",", "v").replace(".", ",").replace("v", ".")
         st.metric('Total Gasto:', totalcontainer)
@@ -32,6 +33,7 @@ with aba2:
     
     coluna21, coluna22 = st.columns(2)
     with coluna21:
+        st.subheader("Total por Departamentos")
         st.dataframe(departamentosloft1)
         totalloft1 = f"R$ {planilhaloft1['Total'].sum():,.2f}".replace(",", "v").replace(".", ",").replace("v", ".")
         st.metric('Total Gasto:', totalloft1) 
@@ -40,6 +42,7 @@ with aba3:
 
     coluna31, coluna32 = st.columns(2)
     with coluna31:
+        st.subheader("Total por Departamentos")
         st.dataframe(departamentosloft2)
         totalloft2 = f"R$ {planilhaloft2['Total'].sum():,.2f}".replace(",", "v").replace(".", ",").replace("v", ".")
         st.metric('Total Gasto:', totalloft2)     
