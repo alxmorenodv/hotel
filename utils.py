@@ -24,7 +24,7 @@ departamentoscontaspagar = planilhacontaspagar.groupby("Plano-Contas")["Total"].
 grupoloft1 = planilhaloft1.groupby("Grupo")["Total"].sum().astype(float)
 grupoloft2 = planilhaloft2.groupby("Grupo")["Total"].sum().astype(float)
 
-df_totaldepartamentos = departamentoscontainer.add(departamentosloft1,fill_value=0).reset_index()
+df_totaldepartamentos = departamentoscontainer.add(departamentosloft1,fill_value=0).add(departamentosloft2,fill_value=0).reset_index()
 graf_departamento = df_totaldepartamentos.groupby("Tipo").agg({'Total':np.sum}).reset_index()
 #df_totaldepartamentos = df_totaldep.groupby('Tipo').agg({'Total':np.mean}).sort_values('Total', ascending=False)
 
