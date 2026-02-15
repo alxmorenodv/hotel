@@ -4,20 +4,24 @@ from dataset import planilhacontainer
 from dataset import planilhaloft1
 from dataset import planilhaloft2
 from dataset import planilhacontaspagar
-
+from utils import format_number, departamentoscontaspagar, departamentoscontainer, departamentosloft1, departamentosloft2, grupoloft1, grupoloft2, df_totaldepartamentos, graf_departamento
+from graficos import grafico_total_departamentos
 
 st.set_page_config(layout='wide')
 st.title("Dashboard Grupo Ideal")
 
-# agrupando totais por departamento
-departamentoscontainer = planilhacontainer.groupby("Tipo")["Total"].sum().astype(float)
-departamentosloft1 = planilhaloft1.groupby("Tipo")["Total"].sum().astype(float)
-departamentosloft2 = planilhaloft2.groupby("Tipo")["Total"].sum().astype(float)
-departamentoscontaspagar = planilhacontaspagar.groupby("Plano-Contas")["Total"].sum().astype(float)
-
-aba1, aba2, aba3, aba4 = st.tabs(['Hotel Container', 'Loft 1', 'Loft 2', 'Contas a Pagar'])
+dash, aba1, aba2, aba3, aba4 = st.tabs(['Dashboard','Hotel Container', 'Loft 1', 'Loft 2', 'Contas a Pagar'])
 
 #https://www.udemy.com/course/desenvolvendo-dashboards-em-python/learn/lecture/38681324#overview  /etapa do curso
+with dash:
+    st.subheader("Total Investimentos")  
+    st.metric('Total Gasto:', format_number(df_totaldepartamentos['Total'].sum(), 'R$')) 
+    
+    coluna1, coluna2 = st.columns(2)
+    with coluna1:
+        st.dataframe(df_totaldepartamentos)
+    with coluna2:
+        st.plotly_chart(grafico_total_departamentos)
 with aba1:
     st.dataframe(planilhacontainer, column_order=["Data", "Descrição", "Fornecedor", "Quant.", "Valor", "Valor Total", "Tipo", "Grupo"])
     
@@ -26,17 +30,32 @@ with aba1:
         st.subheader("Total por Departamentos")
         st.dataframe(departamentoscontainer)
         totalcontainer = f"R$ {planilhacontainer['Total'].sum():,.2f}".replace(",", "v").replace(".", ",").replace("v", ".")
-        st.metric('Total Gasto:', totalcontainer)
+        st.metric('Total Gasto:', format_number(planilhacontainer['Total'].sum(), 'R$'))
+    # with coluna2:
+    #     st.subheader("Total por Grupo")
+    #     st.dataframe(grupocontainer)
+    #     totalgrupo = f"R$ {planilhacontainer['Total'].sum():,.2f}".replace(",", "v").replace(".", ",").replace("v", ".")
+    #     st.metric('Total Gasto:', totalgrupo)    
 
 with aba2:
-    st.dataframe(planilhaloft1, column_order=["Data", "Descrição", "Fornecedor", "Quant.", "Valor", "Valor Total", "Tipo", "Grupo"])
+    st.dataframe(planilhaloft1, column_order=["Data", "Descrição", "Fornecedor", "Quant.", "Valor", "Valor Total", "Tipo", "Grupo"], )
     
-    coluna21, coluna22 = st.columns(2)
+    coluna21, coluna22, coluna23 = st.columns(3)
     with coluna21:
         st.subheader("Total por Departamentos")
         st.dataframe(departamentosloft1)
         totalloft1 = f"R$ {planilhaloft1['Total'].sum():,.2f}".replace(",", "v").replace(".", ",").replace("v", ".")
-        st.metric('Total Gasto:', totalloft1) 
+        #st.metric('Total Gasto:', format_number(totalloft1, 'R$'))
+        st.metric('Total Gasto:', format_number(planilhaloft1['Total'].sum(), 'R$')) 
+    with coluna22:
+        st.subheader("Total por Grupo")
+        st.dataframe(grupoloft1)
+       
+    with coluna23:
+        st.subheader("Total por Grupo")
+        st.dataframe(grupoloft1)
+     
+
 with aba3:
     st.dataframe(planilhaloft2, column_order=["Data", "Descrição", "Fornecedor", "Quant.", "Valor", "Valor Total", "Tipo", "Grupo"])
 
@@ -45,7 +64,11 @@ with aba3:
         st.subheader("Total por Departamentos")
         st.dataframe(departamentosloft2)
         totalloft2 = f"R$ {planilhaloft2['Total'].sum():,.2f}".replace(",", "v").replace(".", ",").replace("v", ".")
-        st.metric('Total Gasto:', totalloft2)     
+        st.metric('Total Gasto:', format_number(planilhaloft2['Total'].sum(), 'R$')) 
+    with coluna32:
+        st.subheader("Total por Grupo")
+        st.dataframe(grupoloft2)
+        totalgrupo = f"R$ {planilhaloft2['Total'].sum():,.2f}".replace(",", "v").replace(".", ",").replace("v", ".")      
 with aba4:
     st.dataframe(planilhacontaspagar, column_order=["Data", "Vencimento", "Descrição", "Fornecedor", "Valor", "Parcela", "Plano-Contas", "Status"])
 
