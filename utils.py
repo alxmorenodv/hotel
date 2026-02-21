@@ -2,7 +2,7 @@ import pandas as pd
 from dataset import planilhacontainer
 from dataset import planilhaloft1
 from dataset import planilhaloft2
-from dataset import planilhacontaspagar
+from dataset import planilhacontaspagar, planilhacontasreceber
 import numpy as np
 
 def format_number(value, prefix = ''):
@@ -34,11 +34,24 @@ graf_departamento = df_totaldepartamentos.groupby("Tipo").agg({'Total':np.sum}).
 
 # #print(df_rec_estado)
 
-# # 2 - Dataframe Receita Mensal
-# df_rec_mensal = df.set_index('Data da Compra').groupby(pd.Grouper(freq='M'))['Preço'].sum().reset_index()
-# df_rec_mensal['Ano'] = df_rec_mensal['Data da Compra'].dt.year
-# df_rec_mensal['Mes'] = df_rec_mensal['Data da Compra'].dt.month_name()
-# #print(df_rec_mensal)
+# CONTAS A PAGAR - DASHBOARD ------------------------------------------------------------------------------------------------
+planilhacontaspagar['Dt_vencimento'] = pd.to_datetime(planilhacontaspagar['Vencimento'], dayfirst=True)
+planilhacontaspagar['Total_limpo'] = planilhacontaspagar['Valor'].str.replace('R$', '', regex=False).str.strip()
+planilhacontaspagar['Total'] = pd.to_numeric(planilhacontaspagar['valor_limpo'].str.replace('.', '').str.replace(',', '.'), errors='coerce')
+df_pag_mensal = planilhacontaspagar.set_index('Dt_vencimento').groupby(pd.Grouper(freq='M'))['Total'].sum().reset_index()
+print(planilhacontaspagar['Total'])
+# FIM CONTAS A PAGAR - DASHBOARD ------------------------------------------------------------------------------------------------
+
+# CONTAS A RECEBER - DASHBOARD ------------------------------------------------------------------------------------------------
+planilhacontasreceber['Dt_vencimento'] = pd.to_datetime(planilhacontasreceber['Vencimento'], dayfirst=True)
+planilhacontasreceber['Total_limpo'] = planilhacontasreceber['Valor'].str.replace('R$', '', regex=False).str.strip()
+planilhacontasreceber['Total'] = pd.to_numeric(planilhacontasreceber['valor_limpo'].str.replace('.', '').str.replace(',', '.'), errors='coerce')
+df_rec_mensal = planilhacontasreceber.set_index('Dt_vencimento').groupby(pd.Grouper(freq='M'))['Total'].sum().reset_index()
+print(planilhacontasreceber['Total'])
+# FIM CONTAS A RECEBER - DASHBOARD ------------------------------------------------------------------------------------------------
+
+
+
 
 # # 3 - Dataframe Receita por Categoria
 # df_rec_categoria = df.groupby('Categoria do Produto')[['Preço']].sum().sort_values('Preço', ascending=False)

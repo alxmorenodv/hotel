@@ -86,6 +86,26 @@ planilhacontaspagar = pd.DataFrame(data=dadoscontaspagar.get_all_values(), colum
 planilhacontaspagar['valor_limpo'] = planilhacontaspagar['Valor'].str.replace('R$', '', regex=False).str.strip()
 planilhacontaspagar['Total'] = pd.to_numeric(planilhacontaspagar['valor_limpo'].str.replace('.', '').str.replace(',', '.'), errors='coerce')
 
+# FINAL LOFT1 CONTAS A PAGAR -----------------------------------------------------------------------------------------------
+
+# LOFT1 CONTAS A RECEBER -----------------------------------------------------------------------------------------------
+# pegando os dados do contas a pagar da planilha do loft1 online
+dadoscontasreceber = gc.open_by_url("https://docs.google.com/spreadsheets/d/185MABLyZHgantHGiDuPMl3t1LKbDnSlRyE6BvbBpSwc/edit?gid=0#gid=0").worksheet("contasreceber")
+dadoscontasreceber.get_all_values()
+colunascontasreceber = dadoscontasreceber.get_all_values().pop(0)
+
+# trazendo os dadoscontainer para variavel 
+planilhacontasreceber = pd.DataFrame(data=dadoscontasreceber.get_all_values(), columns=colunascontasreceber).drop(index=0).reset_index(drop=True)
+
+# convertendo coluna em numeros
+planilhacontasreceber['valor_limpo'] = planilhacontasreceber['Valor'].str.replace('R$', '', regex=False).str.strip()
+planilhacontasreceber['Total'] = pd.to_numeric(planilhacontasreceber['valor_limpo'].str.replace('.', '').str.replace(',', '.'), errors='coerce')
+
+# FINAL LOFT1 CONTAS A RECEBER -----------------------------------------------------------------------------------------------
+
+
+
+
 #Departamentos.plot(kind="bar", x="Tipo", y="Total", title="Hotel Morenos", rot=45)
 #planilhacontainer.query('Tipo == "Quartos"')
 # zqdnvx388pekekakg6hbfc.streamlit.app

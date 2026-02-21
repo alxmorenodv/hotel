@@ -1,5 +1,5 @@
 import plotly.express as px
-from utils import df_totaldepartamentos, graf_departamento
+from utils import df_totaldepartamentos, graf_departamento, df_pag_mensal, df_rec_mensal
 
 # grafico_map_estado = px.scatter_geo(
 #     df_rec_estado,
@@ -13,18 +13,31 @@ from utils import df_totaldepartamentos, graf_departamento
 #     title = 'Receita por Estado'
 # )
 
-# grafico_rec_mensal = px.line(
-#     df_rec_mensal,
-#     x = 'Mes',
-#     y = 'Preço',
-#     markers = True,
-#     range_y = (0, df_rec_mensal.max()),
-#     color = 'Ano',
-#     line_dash = 'Ano',
-#     title = 'Receita Mensal'   
-# )
+# CONTAS A PAGAR - DASHBOARD ------------------------------------------------------------------------------------------------
+grafico_pag_mensal = px.bar(
+     df_pag_mensal,
+     x = 'Dt_vencimento',
+     y = 'Total',
+     text_auto = True,
+    #  range_y = (0, '100000,00'),
+     color = 'Dt_vencimento',
+     title = 'Contas a Pagar Mensal'   
+ )
+grafico_pag_mensal.update_layout(yaxis_title = 'Contas a Pagar')
+# FIM CONTAS A PAGAR - DASHBOARD ------------------------------------------------------------------------------------------------
 
-# grafico_rec_mensal.update_layout(yaxis_title = 'Receita')
+# CONTAS A RECEBER - DASHBOARD ------------------------------------------------------------------------------------------------
+grafico_rec_mensal = px.bar(
+     df_rec_mensal,
+     x = 'Dt_vencimento',
+     y = 'Total',
+     text_auto = True,
+    #  range_y = (0, '100000,00'),
+     color = 'Dt_vencimento',
+     title = 'Contas a Receber Mensal'   
+ )
+grafico_rec_mensal.update_layout(yaxis_title = 'Contas a Receber')
+# FIM CONTAS A RECEBER - DASHBOARD ------------------------------------------------------------------------------------------------
 
 # grafico_rec_estado = px.bar(
 #     df_rec_estado.head(7),

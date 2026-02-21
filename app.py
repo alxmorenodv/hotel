@@ -5,7 +5,7 @@ from dataset import planilhaloft1
 from dataset import planilhaloft2
 from dataset import planilhacontaspagar
 from utils import format_number, departamentoscontaspagar, departamentoscontainer, departamentosloft1, departamentosloft2, grupoloft1, grupoloft2, df_totaldepartamentos, graf_departamento
-from graficos import grafico_total_departamentos
+from graficos import grafico_total_departamentos, grafico_pag_mensal, grafico_rec_mensal
 
 st.set_page_config(layout='wide')
 st.title("Dashboard Grupo Ideal")
@@ -14,12 +14,25 @@ dash, aba1, aba2, aba3, aba4 = st.tabs(['Dashboard','Hotel Container', 'Loft 1',
 
 #https://www.udemy.com/course/desenvolvendo-dashboards-em-python/learn/lecture/38681324#overview  /etapa do curso
 with dash:
-    st.subheader("Total Investimentos")  
+    planilhacontaspagar["Month"] = planilhacontaspagar["Dt_vencimento"].apply(lambda x: str(x.year) + "-" + str(x.month))
+    month = st.sidebar.selectbox("Mês", planilhacontaspagar["Month"].unique())
+
+    df_filtered = planilhacontaspagar[planilhacontaspagar["Month"] == month]
+
+    st.subheader("Total Investimentos:")  
     st.metric('Total Gasto:', format_number(df_totaldepartamentos['Total'].sum(), 'R$')) 
     
     coluna1, coluna2 = st.columns(2)
+
+    st.subheader("Contas a Pagar:") 
+    st.plotly_chart(grafico_pag_mensal)
+
+    st.subheader("Contas a Receber:") 
+    st.plotly_chart(grafico_rec_mensal)
+
     with coluna1:
         st.dataframe(df_totaldepartamentos)
+        
     with coluna2:
         st.plotly_chart(grafico_total_departamentos)
 with aba1:
