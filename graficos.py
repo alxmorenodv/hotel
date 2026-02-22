@@ -1,17 +1,6 @@
 import plotly.express as px
 from utils import df_totaldepartamentos, graf_departamento, df_pag_mensal, df_rec_mensal
 
-# grafico_map_estado = px.scatter_geo(
-#     df_rec_estado,
-#     lat = 'lat',
-#     lon = 'lon',
-#     scope = 'south america',
-#     size = 'Preço',
-#     template = 'seaborn',
-#     hover_name = 'Local da compra',
-#     hover_data = {'lat': False, 'lon': False},
-#     title = 'Receita por Estado'
-# )
 
 # CONTAS A PAGAR - DASHBOARD ------------------------------------------------------------------------------------------------
 grafico_pag_mensal = px.bar(
@@ -30,7 +19,7 @@ grafico_pag_mensal.update_layout(yaxis_title = 'Contas a Pagar')
 grafico_rec_mensal = px.bar(
      df_rec_mensal,
      x = 'Dt_vencimento',
-     y = 'Total',
+     y = 'Total-Receber',
      text_auto = True,
     #  range_y = (0, '100000,00'),
      color = 'Dt_vencimento',
@@ -38,6 +27,18 @@ grafico_rec_mensal = px.bar(
  )
 grafico_rec_mensal.update_layout(yaxis_title = 'Contas a Receber')
 # FIM CONTAS A RECEBER - DASHBOARD ------------------------------------------------------------------------------------------------
+
+# FLUXO DE CAIXA - DASHBOARD ------------------------------------------------------------------------------------------------
+grafico_fluxoCaixa = px.line(
+     df_rec_mensal,
+     x = 'Dt_vencimento',
+     y = ['Total-Receber','Total-Pagar'],
+     color_discrete_sequence = ['lime','red'],
+     title = 'Fluxo caixa mensal'   
+ )
+# grafico_fluxoCaixa.dd_trace(go.Scatter(x='Dt_vencimento', y='TotalPagar', mode='lines', name='TotalPagar'))
+grafico_fluxoCaixa.update_layout(yaxis_title = 'Fluxo de Caixa')
+# FIM FLUXO DE CAIXA- DASHBOARD ------------------------------------------------------------------------------------------------
 
 # grafico_rec_estado = px.bar(
 #     df_rec_estado.head(7),

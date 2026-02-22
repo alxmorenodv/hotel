@@ -5,7 +5,7 @@ from dataset import planilhaloft1
 from dataset import planilhaloft2
 from dataset import planilhacontaspagar
 from utils import format_number, departamentoscontaspagar, departamentoscontainer, departamentosloft1, departamentosloft2, grupoloft1, grupoloft2, df_totaldepartamentos, graf_departamento
-from graficos import grafico_total_departamentos, grafico_pag_mensal, grafico_rec_mensal
+from graficos import grafico_total_departamentos, grafico_pag_mensal, grafico_rec_mensal, grafico_fluxoCaixa
 
 st.set_page_config(layout='wide')
 st.title("Dashboard Grupo Ideal")
@@ -29,6 +29,9 @@ with dash:
 
     st.subheader("Contas a Receber:") 
     st.plotly_chart(grafico_rec_mensal)
+
+    st.subheader("Fluxo de Caixa:") 
+    st.plotly_chart(grafico_fluxoCaixa)
 
     with coluna1:
         st.dataframe(df_totaldepartamentos)
