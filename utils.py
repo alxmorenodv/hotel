@@ -2,7 +2,7 @@ import pandas as pd
 from dataset import planilhacontainer
 from dataset import planilhaloft1
 from dataset import planilhaloft2
-from dataset import planilhacontaspagar, planilhacontasreceber
+from dataset import planilhacontaspagar, planilhacontasreceber, planilhaequalizacao
 import numpy as np
 
 def format_number(value, prefix = ''):
@@ -17,7 +17,7 @@ departamentoscontainer = planilhacontainer.groupby("Tipo")["Total"].sum().astype
 departamentosloft1 = planilhaloft1.groupby("Tipo")["Total"].sum().astype(float)
 departamentosloft2 = planilhaloft2.groupby("Tipo")["Total"].sum().astype(float)
 departamentoscontaspagar = planilhacontaspagar.groupby("Plano-Contas")["Total"].sum().astype(float)
-
+departamentoequalizacao = planilhaequalizacao.groupby("Liquidação")["Total"].sum().astype(float)
 
 # AGRUPAMENTO PLANILHAS
 grupoloft1 = planilhaloft1.groupby("Grupo")["Total"].sum().astype(float)

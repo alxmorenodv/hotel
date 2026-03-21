@@ -103,6 +103,21 @@ planilhacontasreceber['Total'] = pd.to_numeric(planilhacontasreceber['valor_limp
 
 # FINAL LOFT1 CONTAS A RECEBER -----------------------------------------------------------------------------------------------
 
+# EQUALIZACAO -----------------------------------------------------------------------------------------------
+# pegando os dados da planilha do loft1 online
+dadosequalizacao = gc.open_by_url("https://docs.google.com/spreadsheets/d/185MABLyZHgantHGiDuPMl3t1LKbDnSlRyE6BvbBpSwc/edit?gid=0#gid=0").worksheet("equalizacao")
+dadosequalizacao.get_all_values()
+colunasequalizacao = dadosequalizacao.get_all_values().pop(0)
+
+# trazendo os dadoscontainer para variavel 
+planilhaequalizacao = pd.DataFrame(data=dadosequalizacao.get_all_values(), columns=colunasequalizacao).drop(index=0).reset_index(drop=True)
+
+# convertendo coluna em numeros
+planilhaequalizacao['valor_limpo'] = planilhacontasreceber['Valor'].str.replace('R$', '', regex=False).str.strip()
+planilhaequalizacao['Total'] = pd.to_numeric(planilhaequalizacao['valor_limpo'].str.replace('.', '').str.replace(',', '.'), errors='coerce')
+
+# FINAL EQUALIZACAO -----------------------------------------------------------------------------------------------
+
 
 
 
