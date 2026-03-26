@@ -3,9 +3,11 @@ import plotly.express as px
 from dataset import planilhacontainer
 from dataset import planilhaloft1
 from dataset import planilhaloft2
-from dataset import planilhacontaspagar
+from dataset import planilhacontaspagar, planilhacontaspagar_pago, planilhacontaspagar_pendente
 from dataset import planilhaequalizacao
-from utils import format_number, departamentoscontaspagar, departamentoscontainer, departamentosloft1, departamentosloft2, grupoloft1, grupoloft2, df_totaldepartamentos, graf_departamento, departamentoequalizacao
+from utils import format_number,  grupoloft1, grupoloft2, df_totaldepartamentos, graf_departamento
+from utils import departamentoscontaspagar, departamentoscontainer, departamentosloft1, departamentosloft2
+from utils import departamentoequalizacao, departamentoequalizacao2, departamentoequalizacao3
 from graficos import grafico_total_departamentos, grafico_pag_mensal, grafico_rec_mensal, grafico_fluxoCaixa
 
 st.set_page_config(layout='wide')
@@ -80,22 +82,34 @@ with aba3:
         st.dataframe(grupoloft2)
         totalgrupo = f"R$ {planilhaloft2['Total'].sum():,.2f}".replace(",", "v").replace(".", ",").replace("v", ".")      
 with aba4:
-    st.dataframe(planilhacontaspagar, column_order=["Data", "Vencimento", "Descrição", "Fornecedor", "Valor", "Parcela", "Plano-Contas", "Status"])
+    st.dataframe(planilhacontaspagar_pendente, column_order=["Data", "Vencimento", "Descrição", "Fornecedor", "Valor", "Parcela", "Plano-Contas", "Status"])
+    st.dataframe(planilhacontaspagar_pago, column_order=["Pagamento", "Descrição", "Fornecedor", "Valor", "Parcela", "Categoria", "Plano-Contas", "Status"])
+
     coluna41, coluna42 = st.columns(2)
     with coluna41:
         st.subheader("Total por Departamentos")
         st.dataframe(departamentoscontaspagar)
         totalcontaspagar = f"R$ {planilhacontaspagar['Total'].sum():,.2f}".replace(",", "v").replace(".", ",").replace("v", ".")
         st.metric('Total Previsto:', totalcontaspagar)
+        
 with aba5:
     st.dataframe(planilhaequalizacao, column_order=["Data", "Vencimento", "Descrição", "Valor", "Empreendimento", "Plano-Contas", "Tipo-Pgto", "Liquidação"])
-    coluna51, coluna52 = st.columns(2)
+    coluna51, coluna52, coluna53 = st.columns(3)
     with coluna51:
-        st.subheader("Total por Departamentos")
-        st.dataframe(departamentoequalizacao)
+        st.subheader("Total: ")
         totalequalizacao = f"R$ {planilhaequalizacao['Total'].sum():,.2f}".replace(",", "v").replace(".", ",").replace("v", ".")
-        st.metric('Total Previsto:', totalequalizacao)        
-
+        st.subheader(totalequalizacao)      
+        st.dataframe(departamentoequalizacao)  
+    with coluna52:
+        st.subheader("")
+        st.subheader("")
+        st.dataframe(departamentoequalizacao2)
+        totalequalizacao2 = f"R$ {planilhaequalizacao['Total'].sum():,.2f}".replace(",", "v").replace(".", ",").replace("v", ".")
+    with coluna53:
+        st.subheader("")
+        st.subheader("")
+        st.dataframe(departamentoequalizacao3)
+        totalequalizacao3 = f"R$ {planilhaequalizacao['Total'].sum():,.2f}".replace(",", "v").replace(".", ",").replace("v", ".")    
 
 
 #print(departamentos)

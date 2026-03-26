@@ -86,6 +86,9 @@ planilhacontaspagar = pd.DataFrame(data=dadoscontaspagar.get_all_values(), colum
 planilhacontaspagar['valor_limpo'] = planilhacontaspagar['Valor'].str.replace('R$', '', regex=False).str.strip()
 planilhacontaspagar['Total'] = pd.to_numeric(planilhacontaspagar['valor_limpo'].str.replace('.', '').str.replace(',', '.'), errors='coerce')
 
+planilhacontaspagar_pendente = planilhacontaspagar[(planilhacontaspagar['Status'] == 'Pendente')] 
+planilhacontaspagar_pago = planilhacontaspagar[(planilhacontaspagar['Status'] == 'Paga')] 
+
 # FINAL LOFT1 CONTAS A PAGAR -----------------------------------------------------------------------------------------------
 
 # LOFT1 CONTAS A RECEBER -----------------------------------------------------------------------------------------------
@@ -113,7 +116,7 @@ colunasequalizacao = dadosequalizacao.get_all_values().pop(0)
 planilhaequalizacao = pd.DataFrame(data=dadosequalizacao.get_all_values(), columns=colunasequalizacao).drop(index=0).reset_index(drop=True)
 
 # convertendo coluna em numeros
-planilhaequalizacao['valor_limpo'] = planilhacontasreceber['Valor'].str.replace('R$', '', regex=False).str.strip()
+planilhaequalizacao['valor_limpo'] = planilhaequalizacao['Valor'].str.replace('R$', '', regex=False).str.strip()
 planilhaequalizacao['Total'] = pd.to_numeric(planilhaequalizacao['valor_limpo'].str.replace('.', '').str.replace(',', '.'), errors='coerce')
 
 # FINAL EQUALIZACAO -----------------------------------------------------------------------------------------------

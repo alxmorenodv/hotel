@@ -18,6 +18,8 @@ departamentosloft1 = planilhaloft1.groupby("Tipo")["Total"].sum().astype(float)
 departamentosloft2 = planilhaloft2.groupby("Tipo")["Total"].sum().astype(float)
 departamentoscontaspagar = planilhacontaspagar.groupby("Plano-Contas")["Total"].sum().astype(float)
 departamentoequalizacao = planilhaequalizacao.groupby("Liquidação")["Total"].sum().astype(float)
+departamentoequalizacao2 = planilhaequalizacao.groupby("Empreendimento")["Total"].sum().astype(float)
+departamentoequalizacao3 = planilhaequalizacao.groupby("Plano-Contas")["Total"].sum().astype(float)
 
 # AGRUPAMENTO PLANILHAS
 grupoloft1 = planilhaloft1.groupby("Grupo")["Total"].sum().astype(float)
