@@ -82,7 +82,11 @@ with aba3:
         st.dataframe(grupoloft2)
         totalgrupo = f"R$ {planilhaloft2['Total'].sum():,.2f}".replace(",", "v").replace(".", ",").replace("v", ".")      
 with aba4:
+    totalcontaspagar_pendente = f"R$ {planilhacontaspagar_pendente['Total'].sum():,.2f}".replace(",", "v").replace(".", ",").replace("v", ".")
+    st.metric("Pendente:", totalcontaspagar_pendente)
     st.dataframe(planilhacontaspagar_pendente, column_order=["Data", "Vencimento", "Descrição", "Fornecedor", "Valor", "Parcela", "Plano-Contas", "Status"])
+    totalcontaspagar_pago = f"R$ {planilhacontaspagar_pago['Total'].sum():,.2f}".replace(",", "v").replace(".", ",").replace("v", ".")
+    st.metric("Pago:", totalcontaspagar_pago)
     st.dataframe(planilhacontaspagar_pago, column_order=["Pagamento", "Descrição", "Fornecedor", "Valor", "Parcela", "Categoria", "Plano-Contas", "Status"])
 
     coluna41, coluna42 = st.columns(2)
