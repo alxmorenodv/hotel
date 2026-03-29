@@ -89,6 +89,9 @@ planilhacontaspagar['Total'] = pd.to_numeric(planilhacontaspagar['valor_limpo'].
 planilhacontaspagar_pendente = planilhacontaspagar[(planilhacontaspagar['Status'] == 'Pendente')] 
 planilhacontaspagar_pago = planilhacontaspagar[(planilhacontaspagar['Status'] == 'Paga')] 
 
+planilhacontaspagar_pendente_investimento = planilhacontaspagar[(planilhacontaspagar['Status'] == 'Pendente') & (planilhacontaspagar['Categoria'] == 'Investimento')]
+planilhacontaspagar_pago_investimento = planilhacontaspagar[(planilhacontaspagar['Status'] == 'Paga') & (planilhacontaspagar['Categoria'] == 'Investimento')]
+
 # FINAL LOFT1 CONTAS A PAGAR -----------------------------------------------------------------------------------------------
 
 # LOFT1 CONTAS A RECEBER -----------------------------------------------------------------------------------------------

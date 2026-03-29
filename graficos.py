@@ -1,5 +1,5 @@
 import plotly.express as px
-from utils import df_totaldepartamentos, graf_departamento, df_pag_mensal, df_rec_mensal
+from utils import df_totaldepartamentos, graf_departamento, df_pag_mensal, df_rec_mensal, df_rec_diario
 
 
 # CONTAS A PAGAR - DASHBOARD ------------------------------------------------------------------------------------------------
@@ -28,7 +28,7 @@ grafico_rec_mensal = px.bar(
 grafico_rec_mensal.update_layout(yaxis_title = 'Contas a Receber')
 # FIM CONTAS A RECEBER - DASHBOARD ------------------------------------------------------------------------------------------------
 
-# FLUXO DE CAIXA - DASHBOARD ------------------------------------------------------------------------------------------------
+# FLUXO DE CAIXA MENSAL- DASHBOARD ------------------------------------------------------------------------------------------------
 grafico_fluxoCaixa = px.line(
      df_rec_mensal,
      x = 'Dt_vencimento',
@@ -36,23 +36,19 @@ grafico_fluxoCaixa = px.line(
      color_discrete_sequence = ['lime','red'],
      title = 'Fluxo caixa mensal'   
  )
-# grafico_fluxoCaixa.dd_trace(go.Scatter(x='Dt_vencimento', y='TotalPagar', mode='lines', name='TotalPagar'))
-grafico_fluxoCaixa.update_layout(yaxis_title = 'Fluxo de Caixa')
-# FIM FLUXO DE CAIXA- DASHBOARD ------------------------------------------------------------------------------------------------
+grafico_fluxoCaixa.update_layout(yaxis_title = 'Fluxo de Caixa Mês')
+# FIM FLUXO DE CAIXA MENSAL - DASHBOARD ------------------------------------------------------------------------------------------------
 
-# grafico_rec_estado = px.bar(
-#     df_rec_estado.head(7),
-#     x = 'Local da compra',
-#     y = 'Preço',
-#     text_auto = True,
-#     title = 'Top Receita por Estados'
-# )
-
-# grafico_rec_categoria = px.bar(
-#     df_rec_categoria.head(7),
-#     text_auto = True,
-#     title = 'Top 7 Categorias com Maior Receita'
-# )
+# FLUXO DE CAIXA DIARIO - DASHBOARD ------------------------------------------------------------------------------------------------
+grafico_fluxoCaixa_dia = px.line(
+     df_rec_diario,
+     x = 'Dt_vencimento',
+     y = ['Total-Receber','Total-Pagar'],
+     color_discrete_sequence = ['lime','red'],
+     title = 'Fluxo caixa mensal'   
+ )
+grafico_fluxoCaixa_dia.update_layout(yaxis_title = 'Fluxo de Caixa Dia')
+# FIM FLUXO DE CAIXA DIARIO - DASHBOARD ------------------------------------------------------------------------------------------------
 
 grafico_total_departamentos = px.bar(
     graf_departamento, 

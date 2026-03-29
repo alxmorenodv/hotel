@@ -16,7 +16,9 @@ def format_number(value, prefix = ''):
 departamentoscontainer = planilhacontainer.groupby("Tipo")["Total"].sum().astype(float)
 departamentosloft1 = planilhaloft1.groupby("Tipo")["Total"].sum().astype(float)
 departamentosloft2 = planilhaloft2.groupby("Tipo")["Total"].sum().astype(float)
-departamentoscontaspagar = planilhacontaspagar.groupby("Plano-Contas")["Total"].sum().astype(float)
+departamentoscontaspagar = planilhacontaspagar.groupby("Liquidação")["Total"].sum().astype(float)
+departamentoscontaspagar2 = planilhacontaspagar.groupby("Empreendimento")["Total"].sum().astype(float)
+departamentoscontaspagar3 = planilhacontaspagar.groupby("Plano-Contas")["Total"].sum().astype(float)
 departamentoequalizacao = planilhaequalizacao.groupby("Liquidação")["Total"].sum().astype(float)
 departamentoequalizacao2 = planilhaequalizacao.groupby("Empreendimento")["Total"].sum().astype(float)
 departamentoequalizacao3 = planilhaequalizacao.groupby("Plano-Contas")["Total"].sum().astype(float)
@@ -48,16 +50,20 @@ df_pag_mensal = planilhacontaspagar.set_index('Dt_vencimento').groupby(pd.Groupe
 # print(planilhacontaspagar['Total'])
 # FIM CONTAS A PAGAR - DASHBOARD ------------------------------------------------------------------------------------------------
 
-# CONTAS A RECEBER - DASHBOARD ------------------------------------------------------------------------------------------------
+# CONTAS A RECEBER - FLUXO CAIXA DASHBOARD ------------------------------------------------------------------------------------------------
 planilhacontasreceber['Dt_vencimento'] = pd.to_datetime(planilhacontasreceber['Vencimento'], dayfirst=True)
 planilhacontasreceber['Total_limpo'] = planilhacontasreceber['Valor'].str.replace('R$', '', regex=False).str.strip()
 planilhacontasreceber['Total'] = pd.to_numeric(planilhacontasreceber['valor_limpo'].str.replace('.', '').str.replace(',', '.'), errors='coerce')
 df_rec_mensal = planilhacontasreceber.set_index('Dt_vencimento').groupby(pd.Grouper(freq='M'))['Total'].sum().reset_index()
 df_rec_mensal['Total-Pagar'] = df_pag_mensal['Total'].astype(float)
 df_rec_mensal['Total-Receber'] = df_rec_mensal['Total'].astype(float)
+
+df_pag_diario = planilhacontaspagar.set_index('Dt_vencimento').groupby(pd.Grouper(freq='D'))['Total'].sum().reset_index()
+df_rec_diario = planilhacontasreceber.set_index('Dt_vencimento').groupby(pd.Grouper(freq='D'))['Total'].sum().reset_index()
+df_rec_diario['Total-Pagar'] = df_pag_diario['Total'].astype(float)
+df_rec_diario['Total-Receber'] = df_rec_diario['Total'].astype(float)
 # print(df_rec_mensal)
 # FIM CONTAS A RECEBER - DASHBOARD ------------------------------------------------------------------------------------------------
-
 
 # fluxo_caixa = df_pag_mensal.add(df_rec_mensal,fill_value=0).reset_index()
 
