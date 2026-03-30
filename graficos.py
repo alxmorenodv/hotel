@@ -45,7 +45,7 @@ grafico_fluxoCaixa_dia = px.line(
      x = 'Dt_vencimento',
      y = ['Total-Receber','Total-Pagar'],
      color_discrete_sequence = ['lime','red'],
-     title = 'Fluxo caixa mensal'   
+     title = 'Fluxo caixa diário'   
  )
 grafico_fluxoCaixa_dia.update_layout(yaxis_title = 'Fluxo de Caixa Dia')
 # FIM FLUXO DE CAIXA DIARIO - DASHBOARD ------------------------------------------------------------------------------------------------

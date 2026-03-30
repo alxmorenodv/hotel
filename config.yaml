@@ -1,0 +1,26 @@
+credentials:
+  usernames:
+    alexandre:
+      email: testando@gmail.com
+      logged_in: False
+      name: Alexandre Moreno
+      password: alx134697
+    tiago soares:
+      email: testando1@gmail.com
+      logged_in: False
+      name: Tiago Soares
+      password: abcd1234
+    douglas:
+      email: testando1@gmail.com
+      logged_in: False
+      name: Douglas
+      password: abcd1234  
+    tiago moreno:
+      email: testando1@gmail.com
+      logged_in: False
+      name: Tiago Moreno
+      password: abcd1234    
+cookie:
+  expiry_days: 1
+  key: some_signature_key
+  name: some_cookie_name
