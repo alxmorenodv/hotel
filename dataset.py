@@ -107,7 +107,19 @@ planilhacontasreceber = pd.DataFrame(data=dadoscontasreceber.get_all_values(), c
 planilhacontasreceber['valor_limpo'] = planilhacontasreceber['Valor'].str.replace('R$', '', regex=False).str.strip()
 planilhacontasreceber['Total'] = pd.to_numeric(planilhacontasreceber['valor_limpo'].str.replace('.', '').str.replace(',', '.'), errors='coerce')
 
+planilhacontasreceber_pendente = planilhacontasreceber[(planilhacontasreceber['Status'] == 'Pendente')] 
+planilhacontasreceber_pago = planilhacontasreceber[(planilhacontasreceber['Status'] == 'Pago')] 
 # FINAL LOFT1 CONTAS A RECEBER -----------------------------------------------------------------------------------------------
+
+# EXTRATO -----------------------------------------------------------------------------------------------
+extrato_p = planilhacontaspagar_pago[['Vencimento', 'Descrição', 'Total']].copy()
+extrato_p['Total'] = extrato_p['Total'] * -1
+extrato_r = planilhacontasreceber_pago[['Vencimento', 'Descrição', 'Total']].copy()
+extrato = pd.concat([extrato_r, extrato_p], ignore_index=True)
+
+print(extrato)
+# FINAL EXTRATO -----------------------------------------------------------------------------------------------
+
 
 # EQUALIZACAO -----------------------------------------------------------------------------------------------
 # pegando os dados da planilha do loft1 online
@@ -123,8 +135,6 @@ planilhaequalizacao['valor_limpo'] = planilhaequalizacao['Valor'].str.replace('R
 planilhaequalizacao['Total'] = pd.to_numeric(planilhaequalizacao['valor_limpo'].str.replace('.', '').str.replace(',', '.'), errors='coerce')
 
 # FINAL EQUALIZACAO -----------------------------------------------------------------------------------------------
-
-
 
 
 #Departamentos.plot(kind="bar", x="Tipo", y="Total", title="Hotel Morenos", rot=45)
