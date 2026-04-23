@@ -87,6 +87,8 @@ planilhacontaspagar['valor_limpo'] = planilhacontaspagar['Valor'].str.replace('R
 planilhacontaspagar['Total'] = pd.to_numeric(planilhacontaspagar['valor_limpo'].str.replace('.', '').str.replace(',', '.'), errors='coerce')
 
 planilhacontaspagar_pendente = planilhacontaspagar[(planilhacontaspagar['Status'] == 'Pendente')] 
+planilhacontaspagar['Vencimento'] = pd.to_datetime(planilhacontaspagar['Vencimento'], format="%d/%m/%Y")
+planilhacontaspagar_pendente_vencido = planilhacontaspagar[(planilhacontaspagar['Status'] == 'Pendente') & (planilhacontaspagar['Vencimento'] < pd.Timestamp.now())] 
 planilhacontaspagar_pago = planilhacontaspagar[(planilhacontaspagar['Status'] == 'Paga')] 
 
 planilhacontaspagar_pendente_investimento = planilhacontaspagar[(planilhacontaspagar['Status'] == 'Pendente') & (planilhacontaspagar['Categoria'] == 'Investimento')]
@@ -117,7 +119,10 @@ extrato_p['Total'] = extrato_p['Total'] * -1
 extrato_r = planilhacontasreceber_pago[['Vencimento', 'Descrição', 'Total']].copy()
 extrato = pd.concat([extrato_r, extrato_p], ignore_index=True)
 
-print(extrato)
+extrato_completo = planilhacontaspagar_pago.copy()
+
+
+#print(extrato_completo)
 # FINAL EXTRATO -----------------------------------------------------------------------------------------------
 
 

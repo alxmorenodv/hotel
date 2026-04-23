@@ -6,7 +6,7 @@ from dataset import planilhaloft1
 from dataset import planilhaloft2
 from dataset import planilhacontaspagar, planilhacontaspagar_pago, planilhacontaspagar_pendente, planilhacontaspagar_pago_investimento, planilhacontaspagar_pendente_investimento
 from dataset import planilhacontasreceber, planilhacontasreceber_pago, planilhacontasreceber_pendente
-from dataset import planilhaequalizacao, extrato
+from dataset import planilhaequalizacao, extrato, planilhacontaspagar_pendente_vencido
 from utils import format_number,  grupoloft1, grupoloft2, df_totaldepartamentos
 from utils import departamentoscontaspagar, departamentoscontaspagar2, departamentoscontaspagar3
 from utils import departamentoscontainer, departamentosloft1, departamentosloft2
@@ -88,7 +88,7 @@ if st.session_state["authentication_status"]:
         with coluna2:
             st.plotly_chart(grafico_total_departamentos)
     with contapagar: #CONTAS A PAGAR
-        col1, col2 = st.columns(2)
+        col1, col2, col3 = st.columns(3)
         with col1:
             totalcontaspagar_pendente = f"R$ {planilhacontaspagar_pendente['Total'].sum():,.2f}".replace(",", "v").replace(".", ",").replace("v", ".")
             st.metric("TOTAL GERAL EM ABERTO:", totalcontaspagar_pendente)
@@ -96,6 +96,9 @@ if st.session_state["authentication_status"]:
             totalcontaspagar_pago = f"R$ {planilhacontaspagar_pago['Total'].sum():,.2f}".replace(",", "v").replace(".", ",").replace("v", ".")
             st.metric("TOTAL PAGO:", totalcontaspagar_pago)
         with col2:
+            totalcontaspagar_pendente_vencido = f"R$ {planilhacontaspagar_pendente_vencido['Total'].sum():,.2f}".replace(",", "v").replace(".", ",").replace("v", ".")
+            st.metric("TOTAL VENCIDO:", totalcontaspagar_pendente_vencido)
+        with col3:
             totalcontaspagar_pendente_investimento = f"R$ {planilhacontaspagar_pendente_investimento['Total'].sum():,.2f}".replace(",", "v").replace(".", ",").replace("v", ".")
             st.metric("TOTAL INVESTIMENTOS EM ABERTO:", totalcontaspagar_pendente_investimento)
 
@@ -110,11 +113,13 @@ if st.session_state["authentication_status"]:
         with col3:
             st.dataframe(departamentoscontaspagar3)    
 
-        st.subheader("Total em aberto")
+        st.subheader("Total em Aberto")
         st.dataframe(planilhacontaspagar_pendente, column_order=["Data", "Vencimento", "Descrição", "Fornecedor", "Valor", "Parcela", "Plano-Contas", "Status"])
-        st.subheader("Total pago")
+        st.subheader("Total Pago")
         st.dataframe(planilhacontaspagar_pago, column_order=["Pagamento", "Descrição", "Fornecedor", "Valor", "Parcela", "Categoria", "Plano-Contas", "Status"])
-            
+        st.subheader("Total Vencido")
+        st.dataframe(planilhacontaspagar_pendente_vencido)
+        # print(planilhacontaspagar_pendente_vencido)    
     with contareceber:
         col1, col2 = st.columns(2)
         with col1:
